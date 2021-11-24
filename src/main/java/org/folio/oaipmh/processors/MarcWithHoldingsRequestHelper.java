@@ -547,8 +547,11 @@ public class MarcWithHoldingsRequestHelper extends AbstractHelper {
         final JsonObject srsInstance = srsResponse.get(instanceId);
         RecordType record = createRecord(request, srsInstance, instanceId);
 
-        JsonObject updatedSrsInstance = metadataManager.populateMetadataWithItemsData(srsInstance, instance,
+        JsonObject updatedSrsWithItemsData = metadataManager.populateMetadataWithItemsData(srsInstance, instance,
             suppressedRecordsProcessing);
+        JsonObject updatedSrsInstance = metadataManager.populateMetadataWithHoldingsData(updatedSrsWithItemsData, instance,
+          suppressedRecordsProcessing);
+
         if (deletedRecordSupport && storageHelper.isRecordMarkAsDeleted(updatedSrsInstance)) {
           record.getHeader()
             .setStatus(StatusType.DELETED);
