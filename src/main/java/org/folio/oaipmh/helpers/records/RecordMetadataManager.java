@@ -24,6 +24,8 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.oaipmh.helpers.storage.StorageHelper;
 
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -31,6 +33,8 @@ import io.vertx.core.json.JsonObject;
  * Is used for manipulating with record metadata. Updates, constructs the new fields or already presented fields.
  */
 public class RecordMetadataManager {
+
+  private static final Logger logger = LoggerFactory.getLogger(RecordMetadataManager.class);
 
   private static final String GENERAL_INFO_FIELD_TAG_NUMBER = "999";
   private static final String ELECTRONIC_ACCESS_FIELD_TAG_NUMBER = "856";
@@ -109,24 +113,18 @@ public class RecordMetadataManager {
    * @param srsInstance       - record from SRS
    * @param inventoryInstance - instance form inventory storage
    */
-  @SuppressWarnings("unchecked")
   public JsonObject populateMetadataWithItemsData(JsonObject srsInstance,
                                                   JsonObject inventoryInstance,
                                                   boolean suppressedRecordsProcessing) {
-    JsonObject itemsAndHoldings;
-    JsonArray items = null;
     Object value = inventoryInstance.getValue(ITEMS_AND_HOLDINGS_FIELDS);
     if (!(value instanceof JsonObject)) {
       return srsInstance;
     }
-    itemsAndHoldings = (JsonObject) value;
-    items = itemsAndHoldings.getJsonArray(ITEMS);
+    JsonObject itemsAndHoldings = (JsonObject) value;
+    JsonArray items = itemsAndHoldings.getJsonArray(ITEMS);
 
     if (Objects.nonNull(items) && CollectionUtils.isNotEmpty(items.getList())) {
-      JsonObject parsedRecord = srsInstance.getJsonObject(PARSED_RECORD);
-      JsonObject content = parsedRecord.getJsonObject(CONTENT);
-      JsonArray fields = content.getJsonArray(FIELDS);
-      List<Object> fieldsList = fields.getList();
+      List<Object> fieldsList = getFieldsForUpdate(srsInstance);
       items.forEach(item -> {
         updateFieldsWithItemEffectiveLocationField((JsonObject) item, fieldsList, suppressedRecordsProcessing);
         updateFieldsWithElectronicAccessField((JsonObject) item, fieldsList, suppressedRecordsProcessing);
@@ -142,10 +140,11 @@ public class RecordMetadataManager {
    * @param inventoryInstance - instance form inventory storage
    */
   public JsonObject populateMetadataWithHoldingsData(JsonObject srsInstance,
-                                                  JsonObject inventoryInstance,
-                                                  boolean suppressedRecordsProcessing) {
+                                                     JsonObject inventoryInstance,
+                                                     boolean suppressedRecordsProcessing) {
     Object value = inventoryInstance.getValue(ITEMS_AND_HOLDINGS_FIELDS);
     if (!(value instanceof JsonObject)) {
+      logger.info("{} is not a JsonObject in {}", ITEMS_AND_HOLDINGS_FIELDS, inventoryInstance);
       return srsInstance;
     }
     JsonObject itemsAndHoldings = (JsonObject) value;
@@ -157,6 +156,8 @@ public class RecordMetadataManager {
         updateFieldsWithElectronicAccessField((JsonObject) holding, fieldsList, suppressedRecordsProcessing);
         updateFieldsWithHoldingsRecordField((JsonObject) holding, fieldsList, suppressedRecordsProcessing);
       });
+    } else {
+      logger.info("{} not found in {}", HOLDINGS, itemsAndHoldings);
     }
     return srsInstance;
   }
