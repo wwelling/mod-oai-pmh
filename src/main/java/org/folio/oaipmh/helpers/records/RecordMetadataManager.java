@@ -173,17 +173,19 @@ public class RecordMetadataManager {
                                                           List<Object> marcRecordFields,
                                                           boolean suppressedRecordsProcessing) {
     Map<String, Object> effectiveLocationSubFields = constructEffectiveLocationSubFieldsMap(itemData);
+    int subFieldValue = BooleanUtils.isFalse(itemData.getBoolean(INVENTORY_SUPPRESS_DISCOVERY_FIELD)) ? 0 : 1;
     if (suppressedRecordsProcessing) {
-      int subFieldValue = BooleanUtils.isFalse(itemData.getBoolean(INVENTORY_SUPPRESS_DISCOVERY_FIELD)) ? 0 : 1;
       effectiveLocationSubFields.put(DISCOVERY_SUPPRESSED_SUBFIELD_CODE, subFieldValue);
     }
-    FieldBuilder fieldBuilder = new FieldBuilder();
-    Map<String, Object> effectiveLocationField = fieldBuilder.withFieldTagNumber(EFFECTIVE_LOCATION_FILED_TAG_NUMBER)
-      .withFirstIndicator(INDICATOR_VALUE)
-      .withSecondIndicator(INDICATOR_VALUE)
-      .withSubFields(effectiveLocationSubFields)
-      .build();
-    marcRecordFields.add(effectiveLocationField);
+    if (subFieldValue == 0) {
+      FieldBuilder fieldBuilder = new FieldBuilder();
+      Map<String, Object> effectiveLocationField = fieldBuilder.withFieldTagNumber(EFFECTIVE_LOCATION_FILED_TAG_NUMBER)
+        .withFirstIndicator(INDICATOR_VALUE)
+        .withSecondIndicator(INDICATOR_VALUE)
+        .withSubFields(effectiveLocationSubFields)
+        .build();
+      marcRecordFields.add(effectiveLocationField);
+    }
   }
 
   /**
@@ -289,17 +291,19 @@ public class RecordMetadataManager {
                                                    List<Object> marcRecordFields,
                                                    boolean suppressedRecordsProcessing) {
     Map<String, Object> holdingsRecordSubFields = constructHoldingsRecordSubFieldsMap(jsonData);
+    int subFieldValue = BooleanUtils.isFalse(jsonData.getBoolean(INVENTORY_SUPPRESS_DISCOVERY_FIELD)) ? 0 : 1;
     if (suppressedRecordsProcessing) {
-      int subFieldValue = BooleanUtils.isFalse(jsonData.getBoolean(INVENTORY_SUPPRESS_DISCOVERY_FIELD)) ? 0 : 1;
       holdingsRecordSubFields.put(DISCOVERY_SUPPRESSED_SUBFIELD_CODE, subFieldValue);
     }
-    FieldBuilder fieldBuilder = new FieldBuilder();
-    Map<String, Object> holdingsRecordField = fieldBuilder.withFieldTagNumber(HOLDINGS_RECORD_FIELD_TAG_NUMBER)
-      .withFirstIndicator(INDICATOR_VALUE)
-      .withSecondIndicator(INDICATOR_VALUE)
-      .withSubFields(holdingsRecordSubFields)
-      .build();
-    marcRecordFields.add(holdingsRecordField);
+    if (subFieldValue == 0) {
+      FieldBuilder fieldBuilder = new FieldBuilder();
+      Map<String, Object> holdingsRecordField = fieldBuilder.withFieldTagNumber(HOLDINGS_RECORD_FIELD_TAG_NUMBER)
+        .withFirstIndicator(INDICATOR_VALUE)
+        .withSecondIndicator(INDICATOR_VALUE)
+        .withSubFields(holdingsRecordSubFields)
+        .build();
+      marcRecordFields.add(holdingsRecordField);
+    }
   }
 
   private Map<String, Object> constructHoldingsRecordSubFieldsMap(JsonObject holdingsData) {

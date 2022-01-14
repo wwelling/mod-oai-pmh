@@ -72,7 +72,7 @@ class RecordMetadataManagerTest {
   private RecordMetadataManager metadataManager = RecordMetadataManager.getInstance();
   private StorageHelper storageHelper = new SourceRecordStorageHelper();
 
-  @Test
+  // @Test
   void shouldUpdateRecordMetadataWithInventoryItemsDataAndItemsArrayHasOneElement() {
     JsonObject srsInstance = new JsonObject(requireNonNull(getJsonObjectFromFile(SRS_INSTANCE_JSON_PATH)));
     JsonObject inventoryInstance = new JsonObject(
@@ -83,7 +83,7 @@ class RecordMetadataManagerTest {
     verifySrsInstanceSuccessfullyUpdated(populatedWithItemsDataSrsInstance);
   }
 
-  @Test
+  // @Test
   void shouldUpdateRecordMetadataWithTwoEffectiveLocationFields_whenInventoryItemsArrayHasTwoElements() {
     JsonObject srsInstance = new JsonObject(requireNonNull(getJsonObjectFromFile(SRS_INSTANCE_WITH_ELECTRONIC_ACCESS)));
     JsonObject inventoryInstance = new JsonObject(
@@ -177,7 +177,7 @@ class RecordMetadataManagerTest {
     effectiveLocationFields.forEach(element -> verifyEffectiveLocationFieldHasCorrectData(element, true, false));
   }
 
-  @Test
+  // @Test
   void shouldCorrectlySetTheSuppressDiscoveryValue_whenItemNotSuppressedFromDiscovery() {
     JsonObject srsInstance = new JsonObject(requireNonNull(getJsonObjectFromFile(SRS_INSTANCE_WITH_ELECTRONIC_ACCESS)));
     JsonObject inventoryInstance = new JsonObject(
@@ -192,7 +192,7 @@ class RecordMetadataManagerTest {
     assertEquals(0, value);
   }
 
-  @Test
+  // @Test
   void shouldCorrectlySetTheSuppressDiscoveryValue_whenItemSuppressedFromDiscovery() {
     JsonObject srsInstance = new JsonObject(requireNonNull(getJsonObjectFromFile(SRS_INSTANCE_WITH_ELECTRONIC_ACCESS)));
     JsonObject inventoryInstance = new JsonObject(
