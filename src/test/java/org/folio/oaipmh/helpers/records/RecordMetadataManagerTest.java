@@ -29,6 +29,7 @@ import org.folio.oaipmh.helpers.storage.SourceRecordStorageHelper;
 import org.folio.oaipmh.helpers.storage.StorageHelper;
 import org.folio.rest.impl.OkapiMockServer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -87,7 +88,8 @@ class RecordMetadataManagerTest {
     verifySrsInstanceSuccessfullyUpdated(populatedWithItemsDataSrsInstance);
   }
 
-  //@Test
+  @Disabled
+  @Test
   void shouldUpdateRecordMetadataWithTwoEffectiveLocationFields_whenInventoryItemsArrayHasTwoElements() {
     JsonObject srsInstance = new JsonObject(requireNonNull(getJsonObjectFromFile(SRS_INSTANCE_WITH_ELECTRONIC_ACCESS)));
     JsonObject inventoryInstance = new JsonObject(
@@ -198,7 +200,8 @@ class RecordMetadataManagerTest {
     effectiveLocationFields.forEach(element -> verifyEffectiveLocationFieldHasCorrectData(element, true, false));
   }
 
-  //@Test
+  @Disabled
+  @Test
   void shouldCorrectlySetTheSuppressDiscoveryValue_whenItemNotSuppressedFromDiscovery() {
     JsonObject srsInstance = new JsonObject(requireNonNull(getJsonObjectFromFile(SRS_INSTANCE_WITH_ELECTRONIC_ACCESS)));
     JsonObject inventoryInstance = new JsonObject(
@@ -213,7 +216,8 @@ class RecordMetadataManagerTest {
     assertEquals(0, value);
   }
 
-  //@Test
+  @Disabled
+  @Test
   void shouldCorrectlySetTheSuppressDiscoveryValue_whenItemSuppressedFromDiscovery() {
     JsonObject srsInstance = new JsonObject(requireNonNull(getJsonObjectFromFile(SRS_INSTANCE_WITH_ELECTRONIC_ACCESS)));
     JsonObject inventoryInstance = new JsonObject(

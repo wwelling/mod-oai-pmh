@@ -468,8 +468,6 @@ public class RecordMetadataManager {
       this.jsonPropertyPath = jsonPropertyPath;
     }
 
-    
-
     public static List<EffectiveLocationSubFields> getLocationValues() {
       return Arrays.asList(INSTITUTION_NAME, CAMPUS_NAME, LIBRARY_NAME);
     }
