@@ -77,7 +77,8 @@ class RecordMetadataManagerTest {
   private RecordMetadataManager metadataManager = RecordMetadataManager.getInstance();
   private StorageHelper storageHelper = new SourceRecordStorageHelper();
 
-  //@Test
+  @Disabled
+  @Test
   void shouldUpdateRecordMetadataWithInventoryItemsDataAndItemsArrayHasOneElement() {
     JsonObject srsInstance = new JsonObject(requireNonNull(getJsonObjectFromFile(SRS_INSTANCE_JSON_PATH)));
     JsonObject inventoryInstance = new JsonObject(
@@ -332,8 +333,6 @@ class RecordMetadataManagerTest {
         .noneMatch(subField -> subField.containsKey(subFieldCode) && subField.get(subFieldCode)
           .equals(subFieldValue));
     }
-
-
   }
 
   private JsonObject getFieldFromFieldsListByTagNumber(JsonArray fields, String tag) {

@@ -180,7 +180,7 @@ public class RecordMetadataManager {
     if (suppressedRecordsProcessing) {
       effectiveLocationSubFields.put(DISCOVERY_SUPPRESSED_SUBFIELD_CODE, subFieldValue);
     }
-    if(subFieldValue == 0) {
+    if (subFieldValue == 0) {
       FieldBuilder fieldBuilder = new FieldBuilder();
       Map<String, Object> effectiveLocationField = fieldBuilder.withFieldTagNumber(EFFECTIVE_LOCATION_FILED_TAG_NUMBER)
         .withFirstIndicator(INDICATOR_VALUE)
@@ -294,7 +294,7 @@ public class RecordMetadataManager {
                                                    List<Object> marcRecordFields,
                                                    boolean suppressedRecordsProcessing) {
     Map<String, Object> holdingsRecordSubFields = constructHoldingsRecordSubFieldsMap(jsonData);
-    int subFieldValue = BooleanUtils.isFalse(jsonData.getBoolean(INVENTORY_SUPPRESS_DISCOVERY_FIELD)) ? 0 : 1;
+    int subFieldValue = calculateDiscoverySuppressedSubfieldValue(jsonData);
     if (suppressedRecordsProcessing) {
       holdingsRecordSubFields.put(DISCOVERY_SUPPRESSED_SUBFIELD_CODE, subFieldValue);
     }
@@ -343,7 +343,6 @@ public class RecordMetadataManager {
       }
     }
   }
-
 
   private void addSubFieldGroup(Map<String, Object> effectiveLocationSubFields, JsonObject itemData,
                                 List<EffectiveLocationSubFields> subFieldGroupProperties) {
@@ -406,7 +405,6 @@ public class RecordMetadataManager {
       updateDataFieldWithDiscoverySuppressedData(jsonObject, metadataSourceOwner, ELECTRONIC_ACCESS_FILED_TAG_NUMBER));
     return content.encode();
   }
-
 
   private Optional<JsonObject> getGeneralInfoDataField(JsonArray fields) {
     return fields.stream()
