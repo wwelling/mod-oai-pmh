@@ -719,7 +719,7 @@
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
-        <version>0.34.1</version>
+        <version>0.40.3</version>
         <configuration>
           <images>
             <image>
@@ -747,15 +747,22 @@
         </configuration>
         <executions>
           <execution>
+            <id>stop-previous-pgsql</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+          <execution>
             <id>start-pgsql</id>
-            <phase>initialize</phase>
+            <phase>generate-sources</phase>
             <goals>
               <goal>start</goal>
             </goals>
           </execution>
           <execution>
             <id>stop-pgsql</id>
-            <phase>compile</phase>
+            <phase>post-integration-test</phase>
             <goals>
               <goal>stop</goal>
               <goal>remove</goal>
