@@ -294,12 +294,13 @@ public class RecordMetadataManager {
   }
 
   /**
-  * Constructs field with subfields which is build from holdings record data. Constructed field has tag number = 999 and both
-  * indicators has ' ' value.
+  * Constructs field with subfields which are built from holdings record data.
   *
-  * @param jsonData                    - json of single item or holding
-  * @param marcRecordFields            - fields list to be updated with new one
-  * @param suppressedRecordsProcessing - include suppressed flag in 999 field?
+  * Constructed field has tag number = 999 and both indicators have ' ' value.
+  *
+  * @param jsonData                    Json of single item or holding.
+  * @param marcRecordFields            Fields list to be updated with new one.
+  * @param suppressedRecordsProcessing Include suppressed flag in 999 field.
   */
  private void updateFieldsWithHoldingsRecordField(JsonObject jsonData,
                                                   List<Object> marcRecordFields,
