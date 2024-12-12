@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -324,7 +323,7 @@ public class RecordMetadataManager {
  private Map<String, Object> constructHoldingsRecordSubFieldsMap(JsonObject holdingsData) {
    Map<String, Object> holdingsRecordSubFields = new HashMap<>();
    JsonObject locationGroup = null;
-   if (Objects.nonNull(holdingsData.getJsonObject(LOCATION))) {
+   if (nonNull(holdingsData.getJsonObject(LOCATION))) {
      locationGroup = holdingsData.getJsonObject(LOCATION)
        .getJsonObject(PERMANENT_LOCATION);
    }
@@ -334,7 +333,7 @@ public class RecordMetadataManager {
    addSubFieldGroup(holdingsRecordSubFields, locationGroup, HoldingsRecordSubFields.PERMANENT_LOCATION_NAME);
    addSubFieldGroup(holdingsRecordSubFields, callNumberGroup, HoldingsRecordSubFields.CALL_NUMBER);
 
-   if (Objects.nonNull(holdingsStatementsGroup)) {
+   if (nonNull(holdingsStatementsGroup)) {
      holdingsStatementsGroup.forEach(statementData -> {
        if (statementData instanceof JsonObject) {
          addSubFieldGroup(holdingsRecordSubFields, (JsonObject) statementData, HoldingsRecordSubFields.STATEMENT);
@@ -347,7 +346,7 @@ public class RecordMetadataManager {
 
  private void addSubFieldGroup(Map<String, Object> effectiveLocationSubFields, JsonObject holdingsData,
                                HoldingsRecordSubFields subFieldGroupProperty) {
-   if(Objects.nonNull(holdingsData)) {
+   if(nonNull(holdingsData)) {
      String subFieldCode = subFieldGroupProperty.getSubFieldCode();
      String subFieldValue = holdingsData.getString(subFieldGroupProperty.getJsonPropertyPath());
      if (isNotEmpty(subFieldValue)) {
