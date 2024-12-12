@@ -296,7 +296,7 @@ public class RecordMetadataManager {
   /**
   * Constructs field with subfields which are built from holdings record data.
   *
-  * Constructed field has tag number = 999 and both indicators have ' ' value.
+  * Constructed field has tag number = 999 and both indicators have a ' ' value.
   *
   * @param jsonData                    Json of single item or holding.
   * @param marcRecordFields            Fields list to be updated with new one.
